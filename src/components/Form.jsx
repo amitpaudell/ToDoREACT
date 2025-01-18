@@ -1,22 +1,23 @@
 import { useState } from "react";
-import TodoItem from "./TodoItem";
-export default function Form() {
-  const [todo, setTodo] = useState("");
-  const [todos, setTodos] = useState([]);
+import styles from "./form.module.css";
+export default function Form({ todos, setTodos }) {
+  const [todo, setTodo] = useState({ name: "", status: false });
   function handleEvent(e) {
     e.preventDefault();
     setTodos([...todos, todo]);
-    setTodo("");
+    setTodo({ name: "", status: false });
   }
+
   return (
     <>
-      <form onSubmit={handleEvent}>
-        <input type="text" value={todo} onChange={(e) => setTodo(e.target.value)} />
-        <button>Add</button>
+      <form className={styles.todoform} onSubmit={handleEvent}>
+        <div className={styles.inputContainer}>
+          <input className={styles.modernInput} type="text" value={todo.name} onChange={(e) => setTodo({ name: e.target.value, status: false })} placeholder="Enter todo Item..." />
+          <button className={styles.modernButton} type="submit">
+            Add
+          </button>
+        </div>
       </form>
-      {todos.map((item) => {
-        return <TodoItem key={item} item={item} />;
-      })}
     </>
   );
 }
